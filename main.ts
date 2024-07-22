@@ -25,7 +25,7 @@ controller.player2.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Press
             `, SpriteKind.BOnb)
         tiles.placeOnRandomTile(Bonb, assets.tile`myTile4`)
         Bonb.follow(Plane, 100)
-        info.startCountdown(3)
+        info.startCountdown(2.5)
         Bomb_launcher.setImage(img`
             ................................
             ................................
