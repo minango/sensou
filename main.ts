@@ -25,7 +25,7 @@ controller.player2.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Press
             `, SpriteKind.BOnb)
         tiles.placeOnRandomTile(Bonb, assets.tile`myTile4`)
         Bonb.follow(Plane, 100)
-        info.startCountdown(2.5)
+        info.startCountdown(3)
         Bomb_launcher.setImage(img`
             ................................
             ................................
@@ -67,7 +67,8 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
     tiles.placeOnRandomTile(Plane, assets.tile`myTile0`)
 })
 info.onCountdownEnd(function () {
-    music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.UntilDone)
+    music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.InBackground)
+    sprites.destroy(Bonb, effects.disintegrate, 500)
     Bonb.setImage(img`
         . 3 . . . . . . . . . . . 4 . . 
         . 3 3 . . . . . . . . . 4 4 . . 
@@ -86,7 +87,6 @@ info.onCountdownEnd(function () {
         . 4 5 4 . . 4 4 4 . . . 4 4 . . 
         . 4 4 . . . . . . . . . . 4 4 . 
         `)
-    sprites.destroy(Bonb, effects.disintegrate, 500)
     scene.cameraShake(4, 500)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Wall, function (sprite, otherSprite) {
@@ -130,6 +130,8 @@ info.onLifeZero(function () {
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.BOnb, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
+    music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.InBackground)
+    sprites.destroy(otherSprite, effects.disintegrate, 500)
     Bonb.setImage(img`
         . 3 . . . . . . . . . . . 4 . . 
         . 3 3 . . . . . . . . . 4 4 . . 
@@ -148,10 +150,8 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.BOnb, function (sprite, otherSpr
         . 4 5 4 . . 4 4 4 . . . 4 4 . . 
         . 4 4 . . . . . . . . . . 4 4 . 
         `)
-    sprites.destroy(otherSprite, effects.disintegrate, 500)
-    info.stopCountdown()
-    music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.UntilDone)
     scene.cameraShake(8, 1000)
+    info.stopCountdown()
 })
 controller.player2.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Released, function () {
     Bomb_launcher.setImage(img`
@@ -366,7 +366,7 @@ Plane = sprites.create(img`
 tiles.placeOnRandomTile(Plane, assets.tile`myTile0`)
 controller.moveSprite(Plane, 80, 35)
 scene.cameraFollowSprite(Plane)
-info.setLife(3)
+info.setLife(5)
 for (let 値 of tiles.getTilesByType(assets.tile`myTile3`)) {
     Wall = sprites.create(img`
         . . . . . c c b b b . . . . . . 
