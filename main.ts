@@ -68,13 +68,32 @@ controller.menu.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 info.onCountdownEnd(function () {
     music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.UntilDone)
+    Bonb.setImage(img`
+        . 3 . . . . . . . . . . . 4 . . 
+        . 3 3 . . . . . . . . . 4 4 . . 
+        . 3 d 3 . . 4 4 . . 4 4 d 4 . . 
+        . . 3 5 3 4 5 5 4 4 d d 4 4 . . 
+        . . 3 d 5 d 1 1 d 5 5 d 4 4 . . 
+        . . 4 5 5 1 1 1 1 5 1 1 5 4 . . 
+        . 4 5 5 5 5 1 1 5 1 1 1 d 4 4 . 
+        . 4 d 5 1 1 5 5 5 1 1 1 5 5 4 . 
+        . 4 4 5 1 1 5 5 5 5 5 d 5 5 4 . 
+        . . 4 3 d 5 5 5 d 5 5 d d d 4 . 
+        . 4 5 5 d 5 5 5 d d d 5 5 4 . . 
+        . 4 5 5 d 3 5 d d 3 d 5 5 4 . . 
+        . 4 4 d d 4 d d d 4 3 d d 4 . . 
+        . . 4 5 4 4 4 4 4 4 4 4 4 . . . 
+        . 4 5 4 . . 4 4 4 . . . 4 4 . . 
+        . 4 4 . . . . . . . . . . 4 4 . 
+        `)
     sprites.destroy(Bonb, effects.disintegrate, 500)
+    scene.cameraShake(4, 500)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Wall, function (sprite, otherSprite) {
-    game.gameOver(false)
     game.setGameOverEffect(false, effects.dissolve)
     game.setGameOverPlayable(false, music.melodyPlayable(music.siren), true)
     game.setGameOverMessage(false, "Plane collapse!")
+    game.gameOver(false)
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
     game.gameOver(true)
@@ -104,10 +123,10 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     music.play(music.melodyPlayable(music.pewPew), music.PlaybackMode.UntilDone)
 })
 info.onLifeZero(function () {
-    game.gameOver(false)
     game.setGameOverEffect(false, effects.dissolve)
     game.setGameOverPlayable(false, music.melodyPlayable(music.siren), true)
     game.setGameOverMessage(false, "Plane collapse!")
+    game.gameOver(false)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.BOnb, function (sprite, otherSprite) {
     info.changeLifeBy(-1)
@@ -132,6 +151,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.BOnb, function (sprite, otherSpr
     sprites.destroy(otherSprite, effects.disintegrate, 500)
     info.stopCountdown()
     music.play(music.melodyPlayable(music.bigCrash), music.PlaybackMode.UntilDone)
+    scene.cameraShake(8, 1000)
 })
 controller.player2.onButtonEvent(ControllerButton.A, ControllerButtonEvent.Released, function () {
     Bomb_launcher.setImage(img`
@@ -324,6 +344,7 @@ scene.setBackgroundImage(img`
     3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333
     `)
 tiles.setCurrentTilemap(tilemap`レベル2`)
+effects.starField.startScreenEffect()
 Plane = sprites.create(img`
     ..ccc.........ffffff....
     ..f4cc.......fcc22ff....
